@@ -1,0 +1,12 @@
+<decorators defaultdir="/WEB-INF/decorators">
+
+    <excludes>
+        <pattern>/index.html*</pattern>
+    </excludes>
+    <decorator name="main" page="main.jsp">
+        <pattern>/admin/*</pattern>
+        <pattern>/service/*</pattern>
+        <pattern>/carrier/*</pattern>
+        <pattern>/common/*</pattern>
+    </decorator>
+</decorators>

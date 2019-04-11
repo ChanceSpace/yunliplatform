@@ -1,0 +1,271 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field">
+    <!--销售合同相关 所有表前缀xs-->
+    <class name="com.yajun.green.domain.xiaoshou.XiaoShouContact" table="xs_contact_info">
+        <id name="uuid" column="uuid" type="java.lang.String"/>
+
+        <property name="contactType" column="xiao_shou_type">
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.xiaoshou.XiaoShouType</param>
+            </type>
+        </property>
+
+        <property name="baoDianType" column="bao_dian_type">
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.xiaoshou.XiaoShouContactBaoDianType</param>
+            </type>
+        </property>
+
+        <property name="contactStatus" column="contact_status">
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.xiaoshou.XiaoShouContactStatus</param>
+            </type>
+        </property>
+
+        <property name="yiFangType" column="yifang_type" >
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.xiaoshou.XiaoShouContactUserType</param>
+            </type>
+        </property>
+
+        <property name="saleManUuid" column="sale_man_uuid" insert="true" update="true" type="java.lang.String"/>
+        <property name="saleManName" column="sale_man_name" insert="true" update="true" type="java.lang.String"/>
+        <property name="creatorUuid" column="creator_uuid" insert="true" update="true" type="java.lang.String"/>
+        <property name="creatorName" column="creator_name" insert="true" update="true" type="java.lang.String"/>
+
+        <property name="createTime" column="create_time" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+        <property name="startDate" column="start_date" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>
+        <property name="endDate" column="end_date" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>
+        <property name="contactNumber" column="contact_number" insert="true" update="true" type="java.lang.String"/>
+
+        <property name="jiaFangUuid" column="jiafang_uuid" insert="true" update="true"  type="java.lang.String"/>
+        <property name="jiaFangName" column="jiafang_name" insert="true" update="true"  type="java.lang.String"/>
+        <property name="jiaFangFaRen" column="jiafang_faren" insert="true" update="true"  type="java.lang.String"/>
+        <property name="jiaFangAddress" column="jiafang_address" insert="true" update="true"  type="java.lang.String"/>
+        <property name="jiaFangPostCode" column="jiafang_postcode" insert="true" update="true"  type="java.lang.String"/>
+        <property name="yiFangUuid" column="yifang_uuid" insert="true" update="true"  type="java.lang.String"/>
+        <property name="yiFangName" column="yifang_name" insert="true" update="true"  type="java.lang.String"/>
+        <property name="yiFangFaRen" column="yifang_faren" insert="true" update="true"  type="java.lang.String"/>
+        <property name="yiFangAddress" column="yifang_address" insert="true" update="true"  type="java.lang.String"/>
+        <property name="yiFangPostCode" column="yifang_postcode" insert="true" update="true"  type="java.lang.String"/>
+
+        <property name="contactPerson" column="yifang_contact_name" insert="true" update="true"  type="java.lang.String"/>
+        <property name="contactPhone" column="yifang_contact_phone" insert="true" update="true"  type="java.lang.String"/>
+
+        <property name="beginExecute" column="begin_execute" insert="true" update="true"  type="java.lang.Boolean"/>
+        <property name="endExecute" column="end_execute" insert="true" update="true"  type="java.lang.Boolean"/>
+
+        <property name="qianFeiBeginTime" column="qian_fei_time" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>
+        <property name="qianFei" column="qian_fei" insert="true" update="true" type="java.lang.Boolean"/>
+
+        <bag name="origModules" table="xs_contact_vehicle_module" cascade="none" lazy="true" order-by="uuid asc">
+            <key column="contact_uuid"/>
+            <one-to-many class="com.yajun.green.domain.xiaoshou.XiaoShouVehicleModule"/>
+        </bag>
+
+        <bag name="vehicleExecutes" table="xs_contact_execute" cascade="none" lazy="true" order-by="tiche_pici asc">
+            <key column="contact_uuid"/>
+            <one-to-many class="com.yajun.green.domain.xiaoshou.XiaoShouVehicleExecute"/>
+        </bag>
+
+        <bag name="rentingFeeHistories" table="xs_contact_rentfee_his" cascade="none" lazy="true" order-by="actual_fee_date asc">
+            <key column="contact_uuid"/>
+            <one-to-many class="com.yajun.green.domain.xiaoshou.XiaoShouContactRentingFeeHistory"/>
+        </bag>
+
+        <bag name="contactFiles" table="xs_contact_file" cascade="none" lazy="true" order-by="uuid asc">
+            <key column="contact_uuid"/>
+            <one-to-many class="com.yajun.green.domain.xiaoshou.XiaoShouContactFile"/>
+        </bag>
+
+        <bag name="contactLogs" table="xs_contact_log" cascade="none" lazy="true" order-by="uuid desc">
+            <key column="contact_uuid"/>
+            <one-to-many class="com.yajun.green.domain.xiaoshou.XiaoShouContactLog"/>
+        </bag>
+
+        <bag name="zuPinContactSupplies" table="xs_contact_supply" cascade="none" lazy="true" order-by="uuid desc">
+            <key column="contact_uuid"/>
+            <one-to-many class="com.yajun.green.domain.xiaoshou.XiaoShouContactSupply"/>
+        </bag>
+
+        <property name="zhiliuChargeNumber" column="zl_charge_nubmer"  insert="true" update="true"  type="java.lang.Integer"/>
+        <property name="jiaoliuChargeNumber" column="jl_charge_number"  insert="true" update="true"  type="java.lang.Integer"/>
+
+        <bag name="chargings" table="xs_contact_charging" cascade="none" lazy="true" order-by="uuid desc">
+            <key column="contact_uuid"/>
+            <one-to-many class="com.yajun.green.domain.xiaoshou.XiaoShouContactCharging"/>
+        </bag>
+    </class>
+
+
+    <class name="com.yajun.green.domain.xiaoshou.XiaoShouContactFile" table="xs_contact_file">
+        <id name="uuid" column="uuid" type="java.lang.String"/>
+        <property name="actorManUuid" column="actor_man_uuid"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="actorManName" column="actor_man_name"  insert="true" update="true"  type="java.lang.String"/>
+
+        <property name="uploadTime" column="timestamp" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+        <property name="uploadFileName" column="upload_filename" insert="true" update="true" type="java.lang.String"/>
+        <property name="actualFileName" column="actual_filename" insert="true" update="true" type="java.lang.String"/>
+
+        <many-to-one name="xiaoShouContact" column="contact_uuid" class="com.yajun.green.domain.xiaoshou.XiaoShouContact" lazy="proxy" cascade="none" insert="true" update="true"/>
+    </class>
+
+
+    <class name="com.yajun.green.domain.xiaoshou.XiaoShouContactLog" table="xs_contact_log">
+        <id name="uuid" column="uuid" type="java.lang.String"/>
+        <property name="actorManUuid" column="actor_man_uuid"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="actorManName" column="actor_man_name"  insert="true" update="true"  type="java.lang.String"/>
+
+        <property name="happenTime" column="timestamp" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+        <property name="description" column="description" insert="true" update="true" type="java.lang.String"/>
+
+        <many-to-one name="xiaoShouContact" column="contact_uuid" class="com.yajun.green.domain.xiaoshou.XiaoShouContact" lazy="proxy" cascade="none" insert="true" update="true"/>
+    </class>
+
+
+    <!--提车执行历史-->
+    <class name="com.yajun.green.domain.xiaoshou.XiaoShouVehicleExecute" table="xs_contact_execute">
+        <id name="uuid" column="uuid" type="java.lang.String"/>
+        <property name="actorManUuid" column="actor_man_uuid"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="actorManName" column="actor_man_name"  insert="true" update="true"  type="java.lang.String"/>
+
+        <property name="moduleName" column="module_name"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="moduleType" column="module_type"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="moduleBrand" column="module_brand"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="moduleColor" column="module_color"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="moduleDianLiang" column="module_dianliang"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="vehicleNum" column="vehicle_num"  insert="true" update="true"  type="java.lang.String"/>
+
+        <property name="tiChePiCi" column="tiche_pici"  insert="true" update="true"  type="java.lang.Integer"/>
+        <property name="tiCheDate" column="tiche_date" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>
+
+        <many-to-one name="xiaoShouContact" column="contact_uuid" class="com.yajun.green.domain.xiaoshou.XiaoShouContact" lazy="proxy" cascade="none" insert="true" update="true"/>
+
+        <property name="xiaoShouType" column="xiao_shou_type" >
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.xiaoshou.XiaoShouType</param>
+            </type>
+        </property>
+
+        <property name="dingJin" column="ding_jin" insert="true" update="true" type="java.math.BigDecimal"/>
+        <property name="shouFu" column="shou_fu" insert="true" update="true" type="java.math.BigDecimal"/>
+        <property name="salePrice" column="saleprice" insert="true" update="true" type="java.math.BigDecimal"/>
+        <property name="weiKuan" column="wei_kuan" insert="true" update="true" type="java.math.BigDecimal"/>
+
+        <property name="executeStatus" column="execute_status" >
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.xiaoshou.XiaoShouContactExecuteStatus</param>
+            </type>
+        </property>
+
+        <property name="maxAnJieYear" column="max_aj_year"  insert="true" update="true"  type="java.lang.Integer"/>
+        <property name="comment" column="comment" insert="true" update="true" type="java.lang.String"/>
+
+    </class>
+
+    <!--销售车型-->
+    <class name="com.yajun.green.domain.xiaoshou.XiaoShouVehicleModule" table="xs_contact_vehicle_module">
+        <id name="uuid" column="uuid" type="java.lang.String"/>
+        <property name="moduleUuid" column="module_uuid" insert="true" update="true" type="java.lang.String"/>
+        <property name="moduleName" column="module_name" insert="true" update="true" type="java.lang.String"/>
+        <property name="moduleType" column="module_type" insert="true" update="true" type="java.lang.String"/>
+        <property name="moduleBrand" column="module_brand"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="moduleColor" column="module_color" insert="true" update="true" type="java.lang.String"/>
+        <property name="moduleDianLiang" column="module_dianliang"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="saleNumber" column="sale_number" insert="true" update="true" type="java.lang.Integer"/>
+
+        <property name="xiaoShouType" column="xiao_shou_type" >
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.xiaoshou.XiaoShouType</param>
+            </type>
+        </property>
+
+        <property name="dingJin" column="ding_jin" insert="true" update="true" type="java.math.BigDecimal"/>
+        <property name="shouFu" column="shou_fu" insert="true" update="true" type="java.math.BigDecimal"/>
+        <property name="salePrice" column="saleprice" insert="true" update="true" type="java.math.BigDecimal"/>
+        <property name="weiKuan" column="wei_kuan" insert="true" update="true" type="java.math.BigDecimal"/>
+        <property name="maxAnJieYear" column="max_aj_year"  insert="true" update="true"  type="java.lang.Integer"/>
+
+        <many-to-one name="xiaoShouContact" column="contact_uuid" class="com.yajun.green.domain.xiaoshou.XiaoShouContact" lazy="proxy" cascade="none" insert="true" update="true"/>
+    </class>
+
+
+    <class name="com.yajun.green.domain.xiaoshou.XiaoShouContactRentingFeeHistory" table="xs_contact_rentfee_his">
+        <id name="uuid" column="uuid" type="java.lang.String"/>
+        <property name="vehicleNumber" column="vehicle_number" insert="true" update="true" type="java.lang.String"/>
+        <property name="tichePiCi" column="tiche_pici" insert="true" update="true" type="java.lang.Integer"/>
+        <property name="jiaoYiRen" column="jiaoyi_ren" insert="true" update="true" type="java.lang.String"/>
+        <property name="jiaoYiRenUuid" column="jiaoyi_ren_uuid" insert="true" update="true" type="java.lang.String"/>
+        <many-to-one name="xiaoShouContact" column="contact_uuid" class="com.yajun.green.domain.xiaoshou.XiaoShouContact" lazy="proxy" cascade="none" insert="true" update="true"/>
+        <property name="contactNumber" column="contact_number" insert="true" update="true" type="java.lang.String"/>
+
+        <property name="feeTotal" column="fee_total" insert="true" update="true" type="java.math.BigDecimal"/>
+        <property name="xiaoShouContactHistoryType" column="history_type" >
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.xiaoshou.XiaoShouContactHistoryType</param>
+            </type>
+        </property>
+
+        <property name="actualFeeDate" column="actual_fee_date" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>
+        <property name="actualFeeDateEnd" column="actual_fee_date_end" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>
+        <property name="happendDate" column="happend_date" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>
+
+        <property name="comment" column="comment" insert="true" update="true" type="java.lang.String"/>
+
+        <property name="payOrderStatus" column="pay_status" >
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.xiaoshou.XiaoShouPayOrderStatus</param>
+            </type>
+        </property>
+        <property name="payOrderNumber" column="pay_order_number" insert="true" update="true" type="java.lang.String"/>
+    </class>
+
+    <!--合同补充协议-->
+    <class name="com.yajun.green.domain.xiaoshou.XiaoShouContactSupply" table="xs_contact_supply">
+        <id name="uuid" column="uuid" type="java.lang.String"/>
+        <property name="caoZuoRen" column="caozuo_ren" insert="true" update="true" type="java.lang.String"/>
+        <property name="caoZuoRenUuid" column="caozuo_ren_uuid" insert="true" update="true" type="java.lang.String"/>
+        <property name="timestamp" column="timestamp" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+        <many-to-one name="xiaoShouContact" column="contact_uuid" class="com.yajun.green.domain.xiaoshou.XiaoShouContact" lazy="proxy" cascade="none" insert="true" update="true"/>
+        <bag name="xiaoShouContactSupplyContents" table="xs_contact_supply_content" cascade="none" lazy="true" order-by="uuid desc">
+            <key column="supply_uuid"/>
+            <one-to-many class="com.yajun.green.domain.xiaoshou.XiaoShouContactSupplyContent"/>
+        </bag>
+    </class>
+
+    <!--协议内容-->
+    <class name="com.yajun.green.domain.xiaoshou.XiaoShouContactSupplyContent" table="xs_contact_supply_content">
+        <id name="uuid" column="uuid" type="java.lang.String"/>
+        <property name="content" column="content" insert="true" update="true" type="java.lang.String"/>
+        <many-to-one name="xiaoShouContactSupply" column="supply_uuid" class="com.yajun.green.domain.xiaoshou.XiaoShouContactSupply" lazy="proxy" cascade="none" insert="true" update="true"/>
+    </class>
+
+    <!--充电桩-->
+    <class name="com.yajun.green.domain.xiaoshou.XiaoShouContactCharging" table="xs_contact_charging">
+        <id name="uuid" column="uuid" type="java.lang.String"/>
+        <property name="chargingAddress" column="c_address" insert="true" update="true" type="java.lang.String"/>
+        <property name="createTime" column="c_create_time" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+        <property name="finishTime" column="c_finish_time" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+        <property name="zuPinXiaoShouContactChargingStatus" column="c_status" >
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.xiaoshou.XiaoShouContactChargingStatus</param>
+            </type>
+        </property>
+        <property name="xiaoShouContactChargingType" column="c_types" >
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.xiaoshou.XiaoShouContactChargingType</param>
+            </type>
+        </property>
+        <property name="chargingNumber" column="c_number" insert="true" update="true" type="java.lang.String"/>
+        <property name="actorManUuid" column="actor_man_uuid"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="actorManName" column="actor_man_name"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="companyUuid" column="company_uuid"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="companyName" column="company_name"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="contactUuid" column="contact_uuid"  insert="true" update="true"  type="java.lang.String"/>
+    </class>
+
+</hibernate-mapping>

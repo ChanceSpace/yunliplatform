@@ -1,0 +1,123 @@
+.admin-main{
+	margin:15px;
+}
+.admin-main .layui-field-title .layui-field-box{
+	padding:10px 30px;
+}
+.admin-main .layui-field-title .layui-field-box p{
+	padding:5px 0;
+}
+.banner-box,.features-box{  border:1px dashed #1AA094; }
+			.style2Right {
+			    width:800px;
+			    display:inline-block;
+			   
+			    padding:20px;
+			    margin:20px;
+			}
+			.style2Text {
+			    position:relative;
+			    border:1px dashed #efefef;
+			}
+			.style2Img {
+			    border:1px dashed #efefef;
+			    height:100px;
+			    color:#ccc;
+			    text-align:center;
+			    cursor:pointer;
+			    position:relative;
+			    z-index:2;
+			}
+			.imgList .detele, .style2Img .detele, .style2Text .detele {
+			    position:absolute;
+			    z-index:10;
+			    right:-10px;
+			    display:inline-block;
+			    width:20px;
+			    height:20px;
+			    text-align:center;
+			    line-height:20px;
+			    border:1px solid #E60012;
+			    border-radius:50%;
+			    color:#E60012;
+			    top:-10px;
+			    cursor:pointer;
+			}
+			.style2Img p {
+			    line-height:100px;
+			}
+			.style2Text textarea {
+				    min-height:100px;
+				    width:96% ;
+				    border:0;
+				     padding:2%;
+				}
+			.layui-upload-button {
+			    position:relative;
+			    display:inline-block;
+			    vertical-align:middle;
+			    min-width:60px;
+			    height:38px;
+			    line-height:38px;
+			    border:1px dashed #DFDFDF;
+			    border-radius:2px;
+			    overflow:hidden;
+			    background-color:#fff;
+			    color:#666;cursor:pointer;margin-right:10px;
+			}
+			.layui-upload-icon {
+			    display:block;
+			    margin:0 15px;
+			    text-align:center;
+			}
+			.layui-upload-icon i {
+			    margin-right:5px;
+			    vertical-align:top;
+			    font-size:20px;
+			    color:#5FB878;
+			}
+			.style2upload {
+			    position:absolute;
+			    width:800px;
+			    font-size:100px;
+			    right:0;
+			    top:0;
+			    cursor:pointer;
+			    height:100px;
+			}
+			.hide{ display:none;} 
+			.con_div{border:1px solid #F1F1F1;padding:20px;margin-bottom:20px;}
+.con_div .addCon{padding:10px;}
+.con_div .banner-box{margin-top:10px;}
+.contentAlt{margin-top:10px;}
+.roomNum,.hingNum,.washroomNum,.bookingNum,.workingNum,.doneNum,.talkingNum,.fullWork,.individuation,.proprietor{display:inline-block;width:100px;}
+.isShow{display:block !important;border:1px solid #e6e6e6;border-radius:2px;width:89%;height:36px;padding:0 10px;}
+.recommend_select{position:absolute;top:40px;left:0;box-shadow:0 0 20px #ccc;width:100%;background:#fff;z-index:12;max-height:800px;overflow-y:auto;}
+.recommend_select li{padding:10px;cursor:pointer;}
+.recommend_select li:hover{background:#F1F1F1;}
+.recommend_select li.active{background:#5FB878;color:#fff;}
+
+
+.nav-left{width:800px;float:left;}
+.img-style{height:80px;border:1px  dashed #efefef;margin-bottom:10px;line-height:80px;text-align:center;color:#ccc;position:relative;}
+.box-container{padding:10px;border:1px dashed #009F95;margin-bottom:10px;position:relative;}
+.box-container .detele{position:absolute;z-index:999;right:-10px;top:-10px;border:1px solid #009900;color:#2fa7a8;border-radius:50%;display:inline-block;width:20px;height:20px;text-align:center;line-height:20px;cursor:pointer;}
+.addCon{margin-top:10px;}
+.popUp{position:absolute;top:40px;width:100%;z-index:999;background:#fff;box-shadow:0 0 10px #ccc;display:none;}
+.popUp li{padding:10px;}
+.popUp li:hover{background:#f5f5f5;}
+.popUp li.active,.popUp li.active:hover{background:#009900;color:#fff;}
+
+
+.layui-form-itemBox {border:1px solid #e2e2e2;margin-top:15px;padding:15px;}
+.layui-form-pitem{border:1px dashed #1AA094;padding:10px;}
+.child-box {background:#efefef;border:1px dashed #e5e5e5;padding:15px;padding-left:0;}
+.layui-btn-small {height:38px;line-height:38px;}
+.addParent,.addChild{}
+.addParent i,.addChild i{font-size:30px;}
+.add_div{margin:10px 0;padding:10px;}
+
+.uploadfile{position:absolute;top:0;left:0;right:0;bottom:0;cursor:pointer;z-index:11;opacity:0;width:100%;}
+.indexBox{padding:10px;border:1px solid #e6e6e6;}
+.index-box{width:600px;display:inline-block;margin:0 10px 10px 0;}
+.li_more{text-align:center;color:#666;}

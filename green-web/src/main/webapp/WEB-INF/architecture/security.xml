@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+    <security:http auto-config="true" access-denied-page="/index.html">
+
+        <security:intercept-url pattern="/index.html" access="ROLE_ANONYMOUS"/>
+        <security:intercept-url pattern="/validatecode.html" access="ROLE_ANONYMOUS"/>
+        <security:intercept-url pattern="/client/**" access="ROLE_ANONYMOUS,ROLE_GREEN_COMMON_USER"/>
+
+        <security:intercept-url pattern="/common/**" access="ROLE_GREEN_COMMON_USER"/>
+        <security:intercept-url pattern="/admin/**" access="ROLE_GREEN_ADMIN"/>
+        <security:intercept-url pattern="/carrier/**" access="ROLE_GREEN_ADMIN,ROLE_GREEN_CARRIER_RENT,ROLE_GREEN_CARRIER,ROLE_GREEN_FINANCE"/>
+        <security:intercept-url pattern="/service/**" access="ROLE_GREEN_ADMIN,ROLE_GREEN_CARRIER_RENT,ROLE_GREEN_CARRIER,ROLE_GREEN_THIRD_SERVICE"/>
+        <security:intercept-url pattern="/contact/**" access="ROLE_GREEN_ADMIN,ROLE_GREEN_CARRIER_RENT,ROLE_GREEN_CARRIER,ROLE_GREEN_FINANCE"/>
+
+        <!-- 鎸囧畾鐧婚檰椤甸潰銆佹垚鍔熼〉闈€�佸け璐ラ〉闈�-->
+        <security:form-login login-page="/index.html" default-target-url="/common/dashboard.html"
+                             always-use-default-target="false"/>
+
+        <!-- logout 椤甸潰锛宭ogout鍚庢竻闄ession -->
+        <security:logout logout-success-url="/index.html" invalidate-session="true"/>
+
+
+        <!-- session 澶辨晥鍚庤烦杞殑椤甸潰锛屾渶澶х櫥闄嗘鏁� -->
+        <security:session-management invalid-session-url="/index.html">
+            <!--<security:concurrency-control max-sessions="1" expired-url="/index.html" session-registry-ref="sessionRegistry"/>-->
+            <security:concurrency-control max-sessions="1" expired-url="/index.html"/>
+        </security:session-management>
+
+        <!-- 浣� 鐢ㄨ浣忕敤鎴峰悕銆佸瘑鐮佸姛鑳斤紝鎸囧畾鏁版嵁婧愬拰鍔犲瘑鐨刱ey -->
+        <!--<security:remember-me data-source-ref="dataSource" system-service-ref=""/>-->
+    </security:http>
+
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider ref="authenticationProvider"/>
+    </security:authentication-manager>
+
+    <bean id="authenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <property name="hideUserNotFoundExceptions" value="false" />
+        <property name="userDetailsService" ref="userService" />
+        <property name="passwordEncoder" ref="passwordEncode" />
+        <property name="saltSource" ref="saltSource" />
+    </bean>
+
+    <!-- 配置密码加密类 -->
+    <bean id="passwordEncode" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+    <bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+        <property name="userPropertyToUse" value="username"/>
+    </bean>
+</beans>

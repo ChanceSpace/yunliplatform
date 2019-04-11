@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:database.properties</value>
+                <value>classpath:application.properties</value>
+                <value>classpath:dubbox.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--单点REDIS-->
+
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" >
+        <property name="connectionFactory" ref="singleConnectionFactory"/>
+		<property name="keySerializer">
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+		</property>
+		<property name="valueSerializer">
+			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+		</property>
+    </bean>
+
+	<bean id="singlePoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="200" />
+		<property name="maxTotal" value="200" />
+		<property name="maxWaitMillis" value="3000" />
+		<property name="testOnBorrow" value="false" />
+	</bean>
+
+    <bean id="singleConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"  >
+        <property name="hostName" value="${redis.host}" />
+        <property name="port" value="${redis.port}" />
+        <property name="timeout" value="6000" />
+        <property name="poolConfig" ref="singlePoolConfig" />
+    </bean>
+
+    <!--哨兵REDIS-->
+
+    <!--<bean id="sentinelConfiguration" class="com.changhong.common.redis.MyRedisSentinelConfiguration">-->
+        <!--<property name="master">-->
+            <!--<bean class="org.springframework.data.redis.connection.RedisNode">-->
+                <!--<property name="name" value="${redis.sentinel.name}"></property>-->
+            <!--</bean>-->
+        <!--</property>-->
+        <!--<property name="tmpSentinels">-->
+            <!--<set>-->
+                <!--<bean class="org.springframework.data.redis.connection.RedisNode">-->
+                    <!--<constructor-arg name="host" value="${redis.sentinel.host}"></constructor-arg>-->
+                    <!--<constructor-arg name="port" value="${redis.sentinel.port}"></constructor-arg>-->
+                <!--</bean>-->
+            <!--</set>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--<bean id="sentinelConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">-->
+        <!--<constructor-arg name="sentinelConfig" ref="sentinelConfiguration"></constructor-arg>-->
+    <!--</bean>-->
+
+    <!--集群REDIS-->
+
+	<!--<bean id="hostport1" class="redis.clients.jedis.HostAndPort">-->
+		<!--<constructor-arg name="host" value="192.168.31.194" />-->
+		<!--<constructor-arg name="port" value="7001" />-->
+	<!--</bean>-->
+	<!--<bean id="hostport2" class="redis.clients.jedis.HostAndPort">-->
+		<!--<constructor-arg name="host" value="192.168.31.194" />-->
+		<!--<constructor-arg name="port" value="7002" />-->
+	<!--</bean>-->
+	<!--<bean id="hostport3" class="redis.clients.jedis.HostAndPort">-->
+		<!--<constructor-arg name="host" value="192.168.31.194" />-->
+		<!--<constructor-arg name="port" value="7003" />-->
+	<!--</bean>-->
+	<!--<bean id="hostport4" class="redis.clients.jedis.HostAndPort">-->
+		<!--<constructor-arg name="host" value="192.168.31.194" />-->
+		<!--<constructor-arg name="port" value="7004" />-->
+	<!--</bean>-->
+	<!--<bean id="hostport5" class="redis.clients.jedis.HostAndPort">-->
+		<!--<constructor-arg name="host" value="192.168.31.194" />-->
+		<!--<constructor-arg name="port" value="7005" />-->
+	<!--</bean>-->
+	<!--<bean id="hostport6" class="redis.clients.jedis.HostAndPort">-->
+		<!--<constructor-arg name="host" value="192.168.31.194" />-->
+		<!--<constructor-arg name="port" value="7006" />-->
+	<!--</bean>-->
+
+	<!--<bean id="redisCluster" class="redis.clients.jedis.JedisCluster">-->
+		<!--<constructor-arg name="nodes">-->
+			<!--<set>-->
+				<!--<ref bean="hostport1" />-->
+				<!--<ref bean="hostport2" />-->
+				<!--<ref bean="hostport3" />-->
+				<!--<ref bean="hostport4" />-->
+				<!--<ref bean="hostport5" />-->
+				<!--<ref bean="hostport6" />-->
+			<!--</set>-->
+		<!--</constructor-arg>-->
+		<!--<constructor-arg name="timeout" value="6000" />-->
+		<!--<constructor-arg name="poolConfig">-->
+			<!--<ref bean="jedisPoolConfig" />-->
+		<!--</constructor-arg>-->
+	<!--</bean>-->
+
+</beans>

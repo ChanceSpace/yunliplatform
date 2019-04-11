@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field">
+    <!--车辆相关-->
+    <class name="com.yajun.job.domain.YunLiJob" table="yj_remote_job_2018">
+        <id name="uuid" column="uuid" type="java.lang.String"/>
+        <property name="jobId" column="job_id" type="java.lang.String" insert="true" update="true"/>
+        <property name="jobStatus" column="job_status" type="java.lang.String" insert="true" update="true"/>
+        <property name="requestHost" column="request_host" type="java.lang.String" insert="true" update="true"/>
+        <property name="requestMethod" column="request_method" type="java.lang.String" insert="true" update="true"/>
+        <property name="requestBody" column="request_body" type="java.lang.String" insert="true" update="true"/>
+        <!--<property name="responseBody" column="response_body" type="java.lang.String" insert="true" update="true"/>-->
+        <property name="tryTimes" column="try_times" type="java.lang.Integer" insert="true" update="true"/>
+
+        <property name="createTime" column="create_time" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+        <property name="finishTime" column="finish_time" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+    </class>
+
+</hibernate-mapping>

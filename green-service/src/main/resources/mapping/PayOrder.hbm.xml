@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field">
+    <!--合同-->
+    <class name="com.yajun.green.domain.pay.PayOrder" table="yj_pay_order">
+        <id name="uuid" column="uuid" type="java.lang.String"/>
+
+        <property name="orderSource" column="o_source">
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.pay.PayOrderSource</param>
+            </type>
+        </property>
+        <property name="orderStatus" column="o_status">
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.pay.PayOrderStatus</param>
+            </type>
+        </property>
+        <property name="payWay" column="o_pay_way">
+            <type name="com.yajun.green.common.domain.EnumConverter">
+                <param name="enumClassName">com.yajun.green.domain.pay.PayOrderWay</param>
+            </type>
+        </property>
+
+        <property name="totalFee" column="o_total_fee" insert="true" update="true" type="java.math.BigDecimal"/>
+        <property name="totalFeeBelone" column="o_total_fee_belone" insert="true" update="true" type="java.math.BigDecimal"/>
+        <property name="totalFeeChengYun" column="o_total_fee_chengyun" insert="true" update="true" type="java.math.BigDecimal"/>
+
+        <property name="orderNumber" column="o_dingdan_number" insert="true" update="true" type="java.lang.String"/>
+        <property name="jiaoYiNumber" column="o_jiaoyi_number" insert="true" update="true" type="java.lang.String"/>
+
+        <property name="beloneName" column="o_belone_name" insert="true" update="true" type="java.lang.String"/>
+        <property name="beloneUuid" column="o_belone_uuid" insert="true" update="true" type="java.lang.String"/>
+        <property name="chengYunName" column="o_chengyun_name" insert="true" update="true" type="java.lang.String"/>
+        <property name="chengYunUuid" column="o_chengyun_uuid" insert="true" update="true" type="java.lang.String"/>
+
+        <property name="createTime" column="o_create_time" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+        <property name="finishTime" column="o_finish_time" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+
+        <property name="actorName" column="o_actor_name" insert="true" update="true" type="java.lang.String"/>
+        <property name="actorUuid" column="o_actor_uuid" insert="true" update="true" type="java.lang.String"/>
+        <property name="orderNote" column="o_note" insert="true" update="true" type="java.lang.String"/>
+
+        <bag name="orderItems" table="zp_contact_rentfee_his" cascade="none" lazy="true" order-by="uuid asc">
+            <key column="pay_order_uuid"/>
+            <one-to-many class="com.yajun.green.domain.contact.ZuPinContactRentingFeeHistory"/>
+        </bag>
+
+        <bag name="feeItems" table="yj_user_rentfee_his" cascade="all" lazy="true" order-by="uuid asc">
+            <key column="pay_order_uuid"/>
+            <one-to-many class="com.yajun.green.domain.chengyun.CarrierRentFeeHistory"/>
+        </bag>
+
+        <bag name="saleItems" table="xs_contact_rentfee_his" cascade="none" lazy="true" order-by="uuid asc">
+            <key column="pay_order_uuid"/>
+            <one-to-many class="com.yajun.green.domain.xiaoshou.XiaoShouContactRentingFeeHistory"/>
+        </bag>
+
+        <bag name="orderFiles" table="yj_pay_order_file" cascade="all" lazy="true" order-by="uuid asc">
+            <key column="pay_order_uuid"/>
+            <one-to-many class="com.yajun.green.domain.pay.PayOrderFile"/>
+        </bag>
+
+    </class>
+
+    <!--承运商账户历史相关-->
+    <class name="com.yajun.green.domain.chengyun.CarrierRentFeeHistory" table="yj_user_rentfee_his">
+        <id name="uuid" column="uuid" type="java.lang.String"/>
+        <property name="happenDate" column="happen_date" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+        <property name="feeTotal" column="fee_total" insert="true" update="true" type="java.math.BigDecimal"/>
+    </class>
+
+    <class name="com.yajun.green.domain.pay.PayOrderFile" table="yj_pay_order_file">
+        <id name="uuid" column="uuid" type="java.lang.String"/>
+        <property name="actorManUuid" column="actor_man_uuid"  insert="true" update="true"  type="java.lang.String"/>
+        <property name="actorManName" column="actor_man_name"  insert="true" update="true"  type="java.lang.String"/>
+
+        <property name="uploadTime" column="timestamp" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+        <property name="uploadFileName" column="upload_filename" insert="true" update="true" type="java.lang.String"/>
+        <property name="actualFileName" column="actual_filename" insert="true" update="true" type="java.lang.String"/>
+
+        <many-to-one name="payOrder" column="pay_order_uuid" class="com.yajun.green.domain.pay.PayOrder" lazy="proxy" cascade="none" insert="true" update="true"/>
+    </class>
+
+</hibernate-mapping>

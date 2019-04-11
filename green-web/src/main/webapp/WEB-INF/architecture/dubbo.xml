@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<!-- 引入zc-com通用类属性注入配置文件 -->
+	<util:properties id="zcparams" location="classpath:dubbox.properties"></util:properties>
+
+
+	<dubbo:application name="green" owner="yajun" organization="dubbox"/>
+	<dubbo:registry address="zookeeper://104.155.205.186:2181"/>
+
+
+	<!-- kryo实现序列化 -->
+	<dubbo:protocol name="dubbo"/>
+	<dubbo:annotation package="com.yajun"/>
+
+
+	<!-- 生成远程服务代理，可以像使用本地bean -->
+	<dubbo:reference interface="com.yajun.vms.service.VmsDubboService" id="vmsDubboService" />
+	<dubbo:reference interface="com.yajun.user.service.UserDubboService" id="userDubboService" />
+
+
+</beans>

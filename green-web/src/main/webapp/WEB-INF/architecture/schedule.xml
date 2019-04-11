@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            ">
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <bean class="org.springframework.scheduling.quartz.CronTriggerBean">
+                    <!-- 自动还款-->
+                    <!--<property name="cronExpression" value="00 0 01 * * ?"/>-->
+                    <property name="cronExpression" value="0 0 1 * * ?"/>
+                    <property name="jobDetail">
+                        <bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+                            <property name="targetObject" ref="zuPinContactRepayScheduler"/>
+                            <property name="targetMethod" value="repaySchedule"/>
+                            <property name="concurrent" value="false"/>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean class="org.springframework.scheduling.quartz.CronTriggerBean">
+                    <!-- 还原欠费历史-->
+                    <!--<property name="cronExpression" value="00 29 09 * * ?"/>-->
+                    <property name="cronExpression" value="0 30 1 * * ?"/>
+                    <property name="jobDetail">
+                        <bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+                            <property name="targetObject" ref="zuPinContactQianFeiIntervalScheduler"/>
+                            <property name="targetMethod" value="resetQianFeiInfo"/>
+                            <property name="concurrent" value="false"/>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean class="org.springframework.scheduling.quartz.CronTriggerBean">
+                    <!-- 更新欠费历史-->
+                    <!--<property name="cronExpression" value="00 29 09 * * ?"/>-->
+                    <property name="cronExpression" value="0 0 2 * * ?"/>
+                    <property name="jobDetail">
+                        <bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+                            <property name="targetObject" ref="zuPinContactQianFeiIntervalScheduler"/>
+                            <property name="targetMethod" value="sumbitQianFeiInfo"/>
+                            <property name="concurrent" value="false"/>
+                        </bean>
+                    </property>
+                </bean>
+
+                <!--1分钟执行一次进行处理-->
+                <bean class="org.springframework.scheduling.quartz.CronTriggerBean">
+                    <property name="cronExpression" value="0/30 * * * * ?"/>
+                    <property name="jobDetail">
+                        <bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+                            <property name="targetObject" ref="jobExecuteScheduler"/>
+                            <property name="targetMethod" value="update"/>
+                            <property name="concurrent" value="false"/>
+                        </bean>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+</beans>

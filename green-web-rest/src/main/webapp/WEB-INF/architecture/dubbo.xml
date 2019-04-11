@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<!-- 引入zc-com通用类属性注入配置文件 -->
+	<util:properties id="zcparams" location="classpath:dubbox.properties"></util:properties>
+
+
+    <!--<dubbo:application name="provider" owner="programmer" organization="dubbox"/>-->
+	<dubbo:application name="green" owner="yajun" organization="dubbox"/>
+	<dubbo:registry address="zookeeper://192.168.1.184:2181"/>
+
+	<!-- zookeeper注册中心 -->
+    <!--<dubbo:registry address="zookeeper://192.168.31.199:2181?backup=192.168.31.200:2181,192.168.31.201:2181"/>-->
+
+    <!--<dubbo:annotation package="com.yajun.green.facade" />-->
+
+    <!-- kryo实现序列化  serialization="kryo" optimizer="bhz.utils.JwSerializationOptimizerImpl"-->
+    <!--<dubbo:protocol name="dubbo"  serialization="kryo" optimizer="com.yajun.green.facade.utils.JwSerializationOptimizerImpl" />-->
+	<dubbo:protocol name="dubbo"/>
+	<dubbo:annotation package="com.yajun"/>
+    <!-- rest -->
+    <dubbo:protocol name="rest" server="servlet" port="8082" contextpath="boss-web-rest" accepts="500"/>
+
+	<!--对内服务-->
+    <!--<dubbo:service interface="bhz.service.SimpleService" ref="simpleService" protocol="dubbo" />-->
+
+
+    <!-- 声明需要暴露的服务接口 -->
+    <!-- 同时提供本地dubbo方法调用和rest方法调用 -->
+	<!--<dubbo:service interface="com.yajun.green.facade.UserServiceFacade" ref="userServiceFacade" protocol="rest,dubbo" />-->
+
+	<!-- spring 本地bean配置 一样实现服务 -->
+	<!--<bean id="userServiceFacade" class="com.yajun.green.facade.UserServiceFacadeImpl" />-->
+
+	<!-- 生成远程服务代理，可以像使用本地bean -->
+	<dubbo:reference interface="com.yajun.vms.service.VmsDubboService" id="vmsDubboService"/>
+
+</beans>
